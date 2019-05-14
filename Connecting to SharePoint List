@@ -1,7 +1,7 @@
 $GetSiteUrl = "SiteUrl"
 $GetListName ="ListName"
 Connect-PnPOnline -Url $GetSiteUrl -CurrentCredentials
-$listItems = Get-PnPListItem -List $GetListName -Fields "Title","Fields"
-$listItems | %{new-object PSObject -Property @{Title=$_["Title"];Description=$_["Description"]}} | select Title,Description
+$listItems = Get-PnPListItem -List $GetListName -Fields "Field1","Field2"
+$listItems | %{new-object PSObject -Property @{Field1=$_["Field1"];Field2=$_["Field2"]}} | select Field1,Field2
 #The above line is used to view all the selected items or else you can run foreach to capture every item
 $listItems
