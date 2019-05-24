@@ -6,3 +6,4 @@ Prerequsite:
 
 More Info:
 If you want to learn more about the Excel to PowerShell functionalities you can refer to https://github.com/RamblingCookieMonster/PSExcel
+and https://github.com/dfinke/ImportExcel
