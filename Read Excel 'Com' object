@@ -1,0 +1,27 @@
+$filePath ="H:\testing1.xlsx"
+
+# Create an Object Excel.Application using Com interface
+
+$excelObj = New-Object -ComObject Excel.Application
+
+# Disable the 'visible' property so the document won't open in excel
+
+$excelObj.Visible = $false
+
+#open WorkBook
+
+$workBook = $excelObj.Workbooks.Open($filePath)
+
+#Select work sheet using Index
+
+$workSheet = $workBook.sheets.Item(1)
+
+#Select the range of rows should read
+
+$range= 3
+
+for($i=1;$i-le  $range;$i++){
+
+     $workSheet.Columns.Item(1).Rows.Item($i).Text
+
+  }
