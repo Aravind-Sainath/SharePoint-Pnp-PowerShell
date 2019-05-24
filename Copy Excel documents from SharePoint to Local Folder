@@ -1,18 +1,6 @@
-$fromfile = "filePathURL"
-$tofile   = "H:\destinationfilename.xlsx"
+$Source = "filePathURL"
+$Destination   = "H:\destinationfilename.xlsx"
 
 $webclient = New-Object System.Net.WebClient
 $webclient.UseDefaultCredentials = $true
-$webclient.DownloadFile($fromfile, $tofile)
-
-$Excel = New-Object -ComObject Excel.Application
-$Workbook = $Excel.Workbooks.Open($tofile)
-$Worksheet = $Workbook.Sheets.Item($WorksheetName)
-$Excel.Visible = $false
-
-# some Excel manipulation
-
-$Workbook.Close($false)
-$Excel.Quit()
-[System.Runtime.Interopservices.Marshal]::ReleaseComObject($Excel) | Out-Null
-Remove-Variable Excel
+$webclient.DownloadFile($Source, $Destination)
