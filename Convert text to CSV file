@@ -1,0 +1,1 @@
+import-csv tabdelimitedfile.txt -delimiter "`t" | export-csv outputfile.csv
