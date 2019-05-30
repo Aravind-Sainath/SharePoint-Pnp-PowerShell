@@ -1,0 +1,23 @@
+$fromaddress = "from email address" 
+$toaddress = "email address seperated by ',' "
+$Subject = "your subject line" 
+$attachment="if you have attachments keep the path here"
+$test= "<Html>
+<p class='MsoNormal'><span style='font-size: 14px;'>Hi All, <br /><br />  your email content goes here... <br /></span></p>
+</Html>"
+$body1 = "<Html> <br>Regards<Br>Aravind</html>"
+$body =$test + $body1
+
+$smtpserver = "smtpserver name" 
+
+$message = new-object System.Net.Mail.MailMessage 
+$message.From = $fromaddress 
+$message.To.Add($toaddress)
+$message.IsBodyHtml = $True 
+$message.Subject = $Subject 
+$attach = new-object Net.Mail.Attachment($attachment) 
+$message.Attachments.Add($attach) 
+$message.IsBodyHTML = $true
+$message.body = $body
+$smtp = new-object Net.Mail.SmtpClient($smtpserver) 
+$smtp.Send($message)
