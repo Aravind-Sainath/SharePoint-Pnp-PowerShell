@@ -25,3 +25,6 @@ for($i=1;$i-le  $range;$i++){
      $workSheet.Columns.Item(1).Rows.Item($i).Text
 
   }
+  
+$workBook.Close()
+$excelObj.Quit()
