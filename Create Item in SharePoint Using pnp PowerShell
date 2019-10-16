@@ -1,0 +1,8 @@
+$GetSiteUrl = "Site URL"
+$ListName = "List Name"
+Connect-PnPOnline -Url $GetSiteUrl -CurrentCredentials
+ $Content = @{
+                  "Title"= "Some Text"
+                  "Column2" = "Some Text"
+             }
+Add-PnPListItem -List $ListName -Values $Content       
