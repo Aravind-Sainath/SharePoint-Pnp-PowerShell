@@ -1,0 +1,39 @@
+$tabName = "SampleTable"
+
+$table = New-Object system.Data.DataTable “$tabName”
+
+$textFile = Get-Content 'H:\testing1.txt'
+$values = @();
+$headers = @();
+foreach ($line in $textFile) {
+    $dictelement = @{}
+    $array = $line.Split('|', [System.StringSplitOptions]::RemoveEmptyEntries)
+    foreach($element in $array)
+    {
+        $dictelement += ConvertFrom-StringData -StringData $element
+    }
+    foreach($col in $dictelement.Keys)
+    {
+        $headers += $col
+    }
+    $values += $dictelement
+}
+$headers = $headers | select -Unique
+$values =$values | ForEach-Object { New-Object -TypeName psobject -Property $_ }
+
+foreach ($columnName in $headers)
+{
+$columnName = New-Object system.Data.DataColumn $ColumnName,([string])
+$table.columns.add($columnName)
+}
+
+foreach ($value in $values) { 
+$row = $table.NewRow()
+    foreach ($columnName in $headers)
+    {
+        $row.$ColumnName = $value.$columnName
+    } 
+$table.Rows.Add($row)
+}
+
+$tabCsv = $table | export-csv H:\powershell.csv -noType
