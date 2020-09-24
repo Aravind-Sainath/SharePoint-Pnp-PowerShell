@@ -1,0 +1,52 @@
+Clear-Host
+$MyModulePath = "C:\temp\ps\modules"  
+Import-Module -Name  $MyModulePath\SharePointPnPPowerShellOnline
+
+Function TrimDirectory ($Directory) 
+{ 
+    if($Directory.EndsWith("\")) 
+    { 
+        Set-Variable -Name Directory -Value ($Directory.Substring(0, ($Directory.Length -1))) -Scope Script 
+    } 
+} 
+ 
+Function EnsureDirectory ($Directory) 
+{ 
+    if(!(Test-Path $Directory)) 
+    { 
+        TrimDirectory $Directory 
+                 
+        New-Item -Path $Directory -ItemType Directory 
+    } 
+}
+
+Function ExportFiles ($folder, $DestinationFile) 
+{ 
+    $files = Get-PnPFolderItem -FolderSiteRelativeUrl $folder -ItemType File
+    $folders = Get-PnPFolderItem -FolderSiteRelativeUrl $folder -ItemType Folder
+    foreach ($file in $files) 
+    {   
+        Get-PnPFile -Url $File.ServerRelativeUrl -Path $DestinationFile -FileName $File.Name -AsFile
+    }
+    foreach ($folder in $folders)
+    {
+        $folderUrl = $folder.ServerRelativeUrl
+        $folderUrl = $folderUrl.Replace($SiteCollection,"")
+        $Createfolder = $Directory + $folderUrl.Replace("/","\")
+        New-Item -Path $Createfolder -ItemType Directory
+        ExportFiles $folderUrl $Createfolder
+    } 
+}
+
+$SiteURL = "site URL" 
+$SiteCollection = "/sites/name"
+$Directory = "c:\ExportFiles\" 
+$folderUrl = '/Shared Documents'
+
+TrimDirectory $Directory 
+EnsureDirectory $Directory 
+
+Connect-PnPOnline –Url $siteURL -UseWebLogin
+$path = $Directory + "\Shared Documents"
+New-Item -Path $path -ItemType Directory
+ExportFiles $folderUrl $path
